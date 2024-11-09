@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { IoEllipsisVerticalSharp } from "react-icons/io5";
 
 const Timer = () => {
-  const [time, settime] = useState(60 * 1000);
+  const [time, settime] = useState(2 * 24 * 60 * 60 * 1000);
   useEffect(() => {
     const worker = new Worker(
       new URL("../../CountDownWorker.js", import.meta.url)
