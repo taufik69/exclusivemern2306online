@@ -1,18 +1,22 @@
 import React from "react";
-import Heading from "../../CommonCoponents/Heading";
-import Timer from "../../CommonCoponents/Timer";
-import Count from "../../../pages/Count";
+import ProductCommonLayout from "../../CommonCoponents/ProductCommonLayout";
 import ProductCard from "../../CommonCoponents/ProductCard";
 const FlashSale = () => {
   return (
-    <div className="mt-[140px] mb-[60px]">
-      <div className="container">
-        <div className="flex items-end gap-x-[87px]">
-          <Heading title={"Today's"} description={"Flash Sales"} />
-          <Timer />
-        </div>
-        <div>
-          <ProductCard />
+    <div className="container">
+      <div className="flex flex-col items-center">
+        <ProductCommonLayout
+          ProductCard={ProductCard}
+          timeStamp={true}
+          timeofOffer={1}
+          isArrowsTrue={true}
+          heading="Today's"
+          description="Flash Sales"
+        />
+        <div className="pb-10">
+          <button className="px-[48px] py-4 bg-redDB4444 rounded text-md font-popins font-medium text-white_FFFFFF hover:opacity-75 cursor-pointer ">
+            View All Products
+          </button>
         </div>
       </div>
     </div>
