@@ -1,12 +1,10 @@
 import React, { useEffect } from "react";
 import ProductCommonLayout from "../../CommonCoponents/ProductCommonLayout";
 import ProductCard from "../../CommonCoponents/ProductCard";
-import { useSelector, useDispatch } from "react-redux";
+
 import { useGetAllProductQuery } from "../../../Features/Api/ProductApi";
 const FlashSale = () => {
-  const dispath = useDispatch();
   const { data, error, isLoading } = useGetAllProductQuery();
-  console.log(isLoading);
 
   return (
     <div className="container">
@@ -19,7 +17,8 @@ const FlashSale = () => {
           heading="Today's"
           description="Flash Sales"
           partialItemShow={6}
-          componentData={[isLoading]}
+          componentData={data?.products}
+          isLoading={isLoading}
         />
         <div className="pb-20 ">
           <button className="px-[48px] py-4 bg-redDB4444 rounded text-md font-popins font-medium text-white_FFFFFF hover:opacity-75 cursor-pointer ">

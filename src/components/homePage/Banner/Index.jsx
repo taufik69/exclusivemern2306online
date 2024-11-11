@@ -24,7 +24,7 @@ const Banner = () => {
           padding: "10px",
         }}
       >
-        <ul style={{ margin: "0px", display: "flex" }}> {dots} </ul>
+        <ul style={{ margin: "0px" }}> {dots} </ul>
       </div>
     ),
     customPaging: (i) =>

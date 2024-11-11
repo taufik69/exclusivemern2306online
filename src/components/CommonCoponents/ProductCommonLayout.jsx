@@ -14,6 +14,7 @@ const ProductCommonLayout = ({
   description = "flash sale",
   partialItemShow = 4,
   componentData = [],
+  isLoading = false,
 }) => {
   const sliderRef = useRef(null);
   const settings = {
@@ -26,11 +27,11 @@ const ProductCommonLayout = ({
   };
 
   const next = () => {
-    sliderRef.current.slickNext();
+    sliderRef.current.slickPrev();
   };
 
   const prev = () => {
-    sliderRef.current.slickPrev();
+    sliderRef.current.slickNext();
   };
 
   return (
@@ -64,12 +65,23 @@ const ProductCommonLayout = ({
         </div>
         <div className="slider-container">
           <Slider ref={sliderRef} {...settings}>
-            {componentData?.map((item, index) => (
-              <div className={partialItemShow > 4 ? "pr-8" : "pr-6"}>
-                <h1>{item}</h1>
-                {/* <ProductCard itemData={item ? item : {}} /> */}
-              </div>
-            ))}
+            {isLoading
+              ? [...new Array(6)]?.map((_, index) => (
+                  <div
+                    className={partialItemShow > 4 ? "pr-8" : "pr-6"}
+                    key={index}
+                  >
+                    <ProductSkeleton />
+                  </div>
+                ))
+              : componentData?.map((item, index) => (
+                  <div
+                    className={partialItemShow > 4 ? "pr-8" : "pr-6"}
+                    key={item.key}
+                  >
+                    <ProductCard itemData={item ? item : {}} />
+                  </div>
+                ))}
           </Slider>
         </div>
       </div>
