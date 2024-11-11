@@ -1,10 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ProductCommonLayout from "../../CommonCoponents/ProductCommonLayout";
 import ProductCard from "../../CommonCoponents/ProductCard";
+import { useSelector, useDispatch } from "react-redux";
+import { useGetAllProductQuery } from "../../../Features/Api/ProductApi";
 const FlashSale = () => {
+  const dispath = useDispatch();
+  const { data, error, isLoading } = useGetAllProductQuery();
+  console.log(isLoading);
+
   return (
     <div className="container">
-      <div className="flex flex-col items-center">
+      <div className="flex flex-col items-center border-b-[1px] border-b-black_363738 mb-10">
         <ProductCommonLayout
           ProductCard={ProductCard}
           timeStamp={true}
@@ -12,8 +18,10 @@ const FlashSale = () => {
           isArrowsTrue={true}
           heading="Today's"
           description="Flash Sales"
+          partialItemShow={6}
+          componentData={[isLoading]}
         />
-        <div className="pb-10">
+        <div className="pb-20 ">
           <button className="px-[48px] py-4 bg-redDB4444 rounded text-md font-popins font-medium text-white_FFFFFF hover:opacity-75 cursor-pointer ">
             View All Products
           </button>

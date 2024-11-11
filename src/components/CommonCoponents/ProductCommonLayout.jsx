@@ -12,14 +12,16 @@ const ProductCommonLayout = ({
   isArrowsTrue = false,
   heading = "today's",
   description = "flash sale",
+  partialItemShow = 4,
+  componentData = [],
 }) => {
   const sliderRef = useRef(null);
   const settings = {
     dots: false,
     infinite: true,
     speed: 500,
-    slidesToShow: 4,
-    slidesToScroll: 3,
+    slidesToShow: partialItemShow,
+    slidesToScroll: partialItemShow - 1,
     // autoplay: true,
   };
 
@@ -32,7 +34,7 @@ const ProductCommonLayout = ({
   };
 
   return (
-    <div className="mt-[140px] mb-[60px]">
+    <div className="mt-[140px] mb-[60px] ">
       <div className="container">
         <div className="flex justify-between items-center">
           <div className="flex items-end gap-x-[87px]">
@@ -62,9 +64,10 @@ const ProductCommonLayout = ({
         </div>
         <div className="slider-container">
           <Slider ref={sliderRef} {...settings}>
-            {[...new Array(10)].map((_, index) => (
-              <div className="pr-6">
-                <ProductCard />
+            {componentData?.map((item, index) => (
+              <div className={partialItemShow > 4 ? "pr-8" : "pr-6"}>
+                <h1>{item}</h1>
+                {/* <ProductCard itemData={item ? item : {}} /> */}
               </div>
             ))}
           </Slider>

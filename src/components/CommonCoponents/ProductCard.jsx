@@ -5,7 +5,7 @@ import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { FaStar } from "react-icons/fa";
 const ProductCard = () => {
   return (
-    <div className="mt-10">
+    <div className="mt-10 ">
       <div className="w-full">
         <div className="bg-white_F5F5F5 pb-[55px] px-3 pt-4 rounded relative group cursor-pointer">
           <div className="flex items-center justify-between">
