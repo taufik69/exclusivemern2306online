@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import ProductCommonLayout from "../../CommonCoponents/ProductCommonLayout";
 import ProductCard from "../../CommonCoponents/ProductCard";
-
 import { useGetAllProductQuery } from "../../../Features/Api/ProductApi";
 const FlashSale = () => {
   const { data, error, isLoading } = useGetAllProductQuery();
