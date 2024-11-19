@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import exprerienceImag from "../../../assets/experience.png";
+import Timer from "../../CommonCoponents/Timer";
 
 const Experience = () => {
   return (
     <div className="my-[120px] overflow-hidden ">
-      <div className="container">
-        <div className="flex  ">
+      {/* <Timer timeofOffer={2} /> */}
+      {/* <div className="container">
+        <div className="flex ">
           <div className="w-1/2 py-[69px] px-10 bg-text_black000000">
             <h3 className="text-button00FF66 text-[16px] font-semibold font-popins">
               Categories
@@ -16,24 +18,15 @@ const Experience = () => {
             <div className="flex items-center mt-[32px] gap-x-6">
               <div className="w-[62px] h-[62px] rounded-full bg-white_FFFFFF flex flex-col items-center justify-center">
                 <p className="text-text_black000000 text-[16px] font-semibold font-popins">
-                  23
+                  {days ? days : 0}
                 </p>
                 <p className="text-text_black000000 text-[11px] font-normal font-popins">
-                  Hours
+                  Days
                 </p>
               </div>
               <div className="w-[62px] h-[62px] rounded-full bg-white_FFFFFF flex flex-col items-center justify-center">
                 <p className="text-text_black000000 text-[16px] font-semibold font-popins">
-                  23
-                </p>
-                <p className="text-text_black000000 text-[11px] font-normal font-popins">
-                  Hours
-                </p>
-              </div>
-
-              <div className="w-[62px] h-[62px] rounded-full bg-white_FFFFFF flex flex-col items-center justify-center">
-                <p className="text-text_black000000 text-[16px] font-semibold font-popins">
-                  23
+                  {hours ? hours : 0}
                 </p>
                 <p className="text-text_black000000 text-[11px] font-normal font-popins">
                   Hours
@@ -42,7 +35,16 @@ const Experience = () => {
 
               <div className="w-[62px] h-[62px] rounded-full bg-white_FFFFFF flex flex-col items-center justify-center">
                 <p className="text-text_black000000 text-[16px] font-semibold font-popins">
-                  23
+                  {minutes}
+                </p>
+                <p className="text-text_black000000 text-[11px] font-normal font-popins">
+                  Hours
+                </p>
+              </div>
+
+              <div className="w-[62px] h-[62px] rounded-full bg-white_FFFFFF flex flex-col items-center justify-center">
+                <p className="text-text_black000000 text-[16px] font-semibold font-popins">
+                  {second}
                 </p>
                 <p className="text-text_black000000 text-[11px] font-normal font-popins">
                   Hours
@@ -58,7 +60,7 @@ const Experience = () => {
             <img src={exprerienceImag} alt={exprerienceImag} className="" />
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

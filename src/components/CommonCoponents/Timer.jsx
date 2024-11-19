@@ -7,7 +7,7 @@ const Timer = ({ timeofOffer }) => {
     const worker = new Worker(
       new URL("../../CountDownWorker.js", import.meta.url)
     );
-    worker.postMessage(time);
+    worker.postMessage(["flashSale", time]);
     worker.onmessage = (e) => {
       settime(e.data);
     };
