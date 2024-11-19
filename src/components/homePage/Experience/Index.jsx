@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
 import exprerienceImag from "../../../assets/experience.png";
-import Timer from "../../CommonCoponents/Timer";
 
 const Experience = () => {
   return (
     <div className="my-[120px] overflow-hidden ">
-      {/* <Timer timeofOffer={2} /> */}
-      {/* <div className="container">
-        <div className="flex ">
+      <div className="container">
+        {/* <div className="flex ">
           <div className="w-1/2 py-[69px] px-10 bg-text_black000000">
             <h3 className="text-button00FF66 text-[16px] font-semibold font-popins">
               Categories
@@ -59,8 +57,8 @@ const Experience = () => {
           <div className="w-1/2 flex justify-center items-center imagShadow bg-text_black000000 ">
             <img src={exprerienceImag} alt={exprerienceImag} className="" />
           </div>
-        </div>
-      </div> */}
+        </div> */}
+      </div>
     </div>
   );
 };

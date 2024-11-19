@@ -1,5 +1,5 @@
 self.onmessage = (event) => {
-  let [time] = event.data;
+  let time = event.data;
 
   const stop = setInterval(() => {
     if (time <= 0) {

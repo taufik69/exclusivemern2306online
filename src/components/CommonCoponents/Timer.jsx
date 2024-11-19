@@ -7,7 +7,7 @@ const Timer = ({ timeofOffer }) => {
     const worker = new Worker(
       new URL("../../CountDownWorker.js", import.meta.url)
     );
-    worker.postMessage(["flashSale", time]);
+    worker.postMessage(time);
     worker.onmessage = (e) => {
       settime(e.data);
     };
@@ -25,6 +25,7 @@ const Timer = ({ timeofOffer }) => {
     return { days, hours, minutes, second };
   };
   const { days, hours, minutes, second } = formatDate(time);
+  console.log(days, hours, minutes, second);
 
   return (
     <div className="flex items-center gap-x-4">
