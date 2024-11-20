@@ -16,6 +16,7 @@ const ProductCommonLayout = ({
   componentData = [],
   isLoading = false,
   viewButton = false,
+  rows = 1,
 }) => {
   const sliderRef = useRef(null);
   const settings = {
@@ -24,6 +25,7 @@ const ProductCommonLayout = ({
     speed: 500,
     slidesToShow: partialItemShow,
     slidesToScroll: partialItemShow - 1,
+    rows: rows,
     // autoplay: true,
   };
 

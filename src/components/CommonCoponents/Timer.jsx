@@ -5,7 +5,7 @@ const Timer = ({ timeofOffer }) => {
   const [time, settime] = useState(timeofOffer * 24 * 60 * 60 * 1000 || 0);
   useEffect(() => {
     const worker = new Worker(
-      new URL("../../CountDownWorker.js", import.meta.url)
+      new URL("../../worker/CountDownWorker.js", import.meta.url)
     );
     worker.postMessage(time);
     worker.onmessage = (e) => {
@@ -25,7 +25,6 @@ const Timer = ({ timeofOffer }) => {
     return { days, hours, minutes, second };
   };
   const { days, hours, minutes, second } = formatDate(time);
-  console.log(days, hours, minutes, second);
 
   return (
     <div className="flex items-center gap-x-4">
