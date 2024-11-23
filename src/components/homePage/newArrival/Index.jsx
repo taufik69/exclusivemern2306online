@@ -17,7 +17,7 @@ const NewArrival = () => {
               className="w-full h-full object-cover rounded-sm"
             />
           </div>
-          <div className="w-[40%]  h-full flex flex-col items-start gap-y-[16px] ">
+          <div className="w-[40%]  bg-white_FFFFFF flex flex-col items-start gap-y-[16px] ">
             <div className="w-full h-1/2 rounded-sm">
               <img
                 src={womenCollection}
@@ -26,16 +26,15 @@ const NewArrival = () => {
               />
             </div>
 
-            <div className="flex gap-x-[16px] w-full ">
-              <div className="w-[350px] bg-black_363738 flex items-center justify-center h-[284px] rounded-sm">
+            <div className="flex gap-x-[16px] h-[50%] w-full ">
+              <div className="w-1/2 bg-text_black000000 h-full">
                 <img
                   src={spekar}
                   alt={spekar}
                   className="w-[270px] h-[284px] object-cover p-4 rounded-sm"
                 />
               </div>
-
-              <div className="w-[350px] bg-black_363738 flex items-center justify-center h-[284px] rounded-sm ">
+              <div className="w-1/2 bg-text_black000000  h-full">
                 <img
                   src={spekar}
                   alt={spekar}
