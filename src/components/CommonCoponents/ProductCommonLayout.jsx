@@ -26,7 +26,7 @@ const ProductCommonLayout = ({
     slidesToShow: partialItemShow,
     slidesToScroll: partialItemShow - 1,
     rows: rows,
-    // autoplay: true,
+    autoplay: true,
   };
 
   const next = () => {

@@ -60,7 +60,7 @@ const Experience = ({ timeDuration = 1 }) => {
                   {minutes}
                 </p>
                 <p className="text-text_black000000 text-[11px] font-normal font-popins">
-                  Hours
+                  Minutes
                 </p>
               </div>
 
@@ -69,7 +69,7 @@ const Experience = ({ timeDuration = 1 }) => {
                   {second}
                 </p>
                 <p className="text-text_black000000 text-[11px] font-normal font-popins">
-                  Hours
+                  Second
                 </p>
               </div>
             </div>

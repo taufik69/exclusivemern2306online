@@ -6,8 +6,9 @@ import FlashSale from "../../components/homePage/FlashSale/Index";
 import Category from "../../components/homePage/Category/Index";
 import BestSellilng from "../../components/homePage/BestSelling/Index";
 import Experience from "../../components/homePage/Experience/Index";
-import ExploreProduct from "../../components/homePage/exploreProducts/Index";
+import ExploreProduct from "../../components/homePage/ExploreProduct/Index";
 import NewArrival from "../../components/homePage/newArrival/Index";
+
 const Homepage = () => {
   return (
     <div>
@@ -17,8 +18,8 @@ const Homepage = () => {
       <FlashSale />
       <Category />
       <BestSellilng />
-      <Experience timeDuration={1} />
-      <ExploreProduct rows={2} />
+      <Experience timeDuration={5} />
+      <ExploreProduct />
       <NewArrival />
     </div>
   );
