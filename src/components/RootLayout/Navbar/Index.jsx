@@ -6,7 +6,7 @@ import { ImCancelCircle } from "react-icons/im";
 import { IoMdStarOutline } from "react-icons/io";
 import { LuShoppingBag, LuUser } from "react-icons/lu";
 import { RiLogoutCircleLine } from "react-icons/ri";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 const Navbar = () => {
   const navItem = [
     {
@@ -36,7 +36,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="pt-10 pb-4 border-b-[1.5px] border-b-text_black7D8184">
+    <div className="pt-10 pb-4 border-b-[2px] border-b-gray-300">
       <div className="container">
         <div className="flex items-center justify-between">
           <div>
