@@ -8,14 +8,14 @@ import {
 } from "react-router-dom";
 import Homepage from "./pages/Home/Index";
 import { RootMainLayout } from "./components/RootLayout/RootMainLayout";
-import Breadcrumbs from "./components/CommonCoponents/BreadCrumb";
-
+import { BreadCrumb } from "./components/CommonCoponents/BreadCrumb";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
       <Route path="/" element={<RootMainLayout />}>
         <Route index element={<Homepage />}></Route>
-        <Route path="/about" element={<Breadcrumbs />}></Route>
+        <Route path="/about" element={<BreadCrumb />}></Route>
+        <Route path="/about/1" element={<BreadCrumb />}></Route>
       </Route>
     </Route>
   )

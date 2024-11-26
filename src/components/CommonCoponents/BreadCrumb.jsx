@@ -1,39 +1,47 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
+export const BreadCrumb = () => {
+  const { pathname } = useLocation();
 
-const Breadcrumbs = () => {
-  const location = useLocation();
-
-  // Map of route paths to breadcrumb labels
-  const routeMap = {
-    "/": "Home",
-    "/about": "About",
-    "/profile": "Profile",
-    "/profile/settings": "Settings",
-  };
-
-  // Generate breadcrumb paths
-  const pathnames = location.pathname.split("/").filter((x) => x);
-  const breadcrumbPaths = pathnames.map((_, index) => {
-    const path = `/${pathnames.slice(0, index + 1).join("/")}`;
-    return { path, label: routeMap[path] || "Unknown" };
-  });
+  let pathnameArr = pathname.split("/").filter((path) => path);
+  let BreadCrumbPath = "";
+  console.log(BreadCrumbPath);
 
   return (
-    <nav aria-label="breadcrumb">
-      <ol style={{ listStyle: "none", display: "flex", gap: "8px" }}>
-        <li>
-          <Link to="/">Home</Link>
-        </li>
-        {breadcrumbPaths.map((breadcrumb, index) => (
-          <li key={breadcrumb.path}>
-            {index > 0 && <span> / </span>}
-            <Link to={breadcrumb.path}>{breadcrumb.label}</Link>
-          </li>
-        ))}
-      </ol>
-    </nav>
+    <div className="py-20">
+      <div className="container">
+        <div className="flex items-center gap-x-2">
+          <span className="inline-block bg-green-500 px-2 py-1 rounded-sm text-white_FFFFFF font-popins">
+            <Link to={"/"}>Home</Link>
+          </span>
+          {pathnameArr?.map((name, index) => {
+            BreadCrumbPath += `/${name}`;
+            const isLast = index === pathnameArr?.length - 1;
+            return isLast ? (
+              <div>
+                <span
+                  className="bg-purple-400 text-white_FFFFFF font-popins px-2 py-1 mx-2 rounded-sm"
+                  key={index}
+                >
+                  {name}
+                </span>
+              </div>
+            ) : (
+              <div className="flex items-center">
+                <span className="text-xl">/</span>
+                <span key={index}>
+                  <Link
+                    className="bg-blue-500 px-2 py-1 mx-2 rounded-sm text-white_FFFFFF font-popins"
+                    to={BreadCrumbPath}
+                  >
+                    {name}{" "}
+                  </Link>
+                </span>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
   );
 };
-
-export default Breadcrumbs;
