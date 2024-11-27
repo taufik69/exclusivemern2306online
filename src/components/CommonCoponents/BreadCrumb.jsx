@@ -5,7 +5,7 @@ export const BreadCrumb = () => {
 
   let pathnameArr = pathname.split("/").filter((path) => path);
   let BreadCrumbPath = "";
-  console.log(BreadCrumbPath);
+ 
 
   return (
     <div className="py-20">
