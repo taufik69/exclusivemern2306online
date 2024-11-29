@@ -9,7 +9,7 @@ const ImageGallery = ({ image }) => {
     clientX: 0,
     clientY: 0,
   });
-  const handleMouseEnter = (event) => {
+  const handleMouseEnter = (img, event) => {
     setisEnter({
       ...isEnter,
       clientX: event.clientX,
@@ -17,11 +17,9 @@ const ImageGallery = ({ image }) => {
     });
   };
 
-  console.log(isEnter);
-
   return (
     <div>
-      <div className="flex gap-x-6 ">
+      <div className="flex gap-x-6 relative">
         <div className="grid grid-rows-4 gap-y-4">
           {image?.map((singleImage) => (
             <div className="bg-blue-50 rounded-sm flex items-center justify-center">
@@ -52,14 +50,26 @@ const ImageGallery = ({ image }) => {
         </div>
 
         {/* big image  */}
-        <div className="bg-white_F5F5F5 rounded flex justify-center items-center w-full">
+        <div className="bg-white_F5F5F5 rounded flex justify-center items-center w-full  ">
           <img
             src={initailImage}
-            alt=""
-            className={`w-[90%] h-[90%] object-cover rounded  transition-transform duration-300  hover:scale-110 `}
-            onMouseMove={handleMouseEnter}
+            alt={initailImage}
+            className={`w-[90%] h-[90%] object-cover rounded `}
+            onMouseMove={(event) => handleMouseEnter(initailImage, event)}
           />
         </div>
+      </div>
+
+      <div
+        className={` absolute top-[${isEnter.clientY}px]  left-[${isEnter.clientX}px]`}
+      >
+        <img
+          src={
+            "https://images.pexels.com/photos/26903733/pexels-photo-26903733/free-photo-of-black-and-white-shot-of-a-roller-coaster-in-an-amusement-park.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+          }
+          alt={initailImage}
+          className={`w-[40%] h-[60%] object-cover rounded `}
+        />
       </div>
     </div>
   );
