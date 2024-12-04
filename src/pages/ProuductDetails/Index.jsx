@@ -2,8 +2,10 @@ import React from "react";
 import { BreadCrumb } from "../../components/CommonCoponents/BreadCrumb";
 import ImageGallery from "../../components/CommonCoponents/ProductDetails/ImageGallery";
 import { useGetSingleProductQuery } from "../../Features/Api/ProductApi.js";
+import SpecificProductDetails from "../../components/CommonCoponents/ProductDetails/SpecificProductDetails.jsx";
 const ProductDetails = () => {
   const { data, error, isLoading } = useGetSingleProductQuery(parseInt(2));
+  console.log(data);
 
   return (
     <div className="py-20">
@@ -14,7 +16,9 @@ const ProductDetails = () => {
           <div className="">
             <ImageGallery image={data?.images} />
           </div>
-          <div className="w-full bg-red-400">2</div>
+          <div className="w-full ">
+            <SpecificProductDetails />
+          </div>
         </div>
       </div>
     </div>
