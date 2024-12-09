@@ -15,7 +15,7 @@ const FlashSale = () => {
           isArrowsTrue={true}
           heading="Today's"
           description="Flash Sales"
-          partialItemShow={6}
+          partialItemShow={8}
           componentData={data?.products}
           isLoading={isLoading}
         />

@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "react-inner-image-zoom/lib/InnerImageZoom/styles.css";
 import InnerImageZoom from "react-inner-image-zoom";
+import { useParams } from "react-router-dom";
 const ImageGallery = ({ image }) => {
+  const params = useParams();
+
   const [initailImage, setinitailImage] = useState(
-    (image && image[0]) ||
+    image[0] ||
       "https://images.pexels.com/photos/974314/pexels-photo-974314.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
   );
 
@@ -41,7 +44,9 @@ const ImageGallery = ({ image }) => {
 
         {/* big image  */}
         <div className="bg-white_F5F5F5 rounded flex justify-center items-center w-full  ">
-          <InnerImageZoom src={initailImage} />
+          <InnerImageZoom
+            src={initailImage === undefined ? image[0] : initailImage}
+          />
         </div>
       </div>
     </div>

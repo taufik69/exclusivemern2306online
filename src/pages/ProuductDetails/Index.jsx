@@ -21,14 +21,15 @@ const ProductDetails = () => {
    * todo : useGetProductByCategoryQuery query invoked
    */
 
-  const categoryData = useGetProductByCategoryQuery("beauty");
+  const categoryData = useGetProductByCategoryQuery(data?.category);
 
   var settings = {
     dots: true,
     infinite: true,
     speed: 500,
-    slidesToShow: 4,
+    slidesToShow: 6,
     slidesToScroll: 3,
+    dots: false,
   };
 
   return (
@@ -56,7 +57,7 @@ const ProductDetails = () => {
           <Heading title="Related Item" description={false} />
           <Slider {...settings}>
             {categoryData?.data?.products?.map((item) => (
-              <div className="px-5">
+              <div className="mx-4">
                 <ProductCard itemData={item} />
               </div>
             ))}
