@@ -10,6 +10,7 @@ import Homepage from "./pages/Home/Index";
 import { RootMainLayout } from "./components/RootLayout/RootMainLayout";
 import ProductPage from "./pages/Prouduct/Index";
 import ProductDetails from "./pages/ProuductDetails/Index";
+import Login from "./pages/auth/Login/Login";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
@@ -18,6 +19,7 @@ const router = createBrowserRouter(
         <Route path="/about" element={<ProductPage />}></Route>
         <Route path="/productdetails/:id" element={<ProductDetails />}></Route>
         <Route path="/productdetails" element={<ProductPage />}></Route>
+        <Route path="/login" element={<Login />}></Route>
       </Route>
     </Route>
   )
