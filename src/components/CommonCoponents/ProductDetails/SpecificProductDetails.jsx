@@ -1,7 +1,22 @@
 import React from "react";
 import Star from "../../CommonCoponents/Star";
 import { IoIosHeartEmpty } from "react-icons/io";
-const SpecificProductDetails = () => {
+import { TbTruckDelivery } from "react-icons/tb";
+import useCalculateDiscount from "../../../hooks/useCalculateDiscount";
+const SpecificProductDetails = ({ ProductDetailsData }) => {
+  const {
+    title,
+    description,
+    rating,
+    price,
+    stock,
+    warrantyInformation,
+    returnPolicy,
+    discountPercentage,
+
+    reviews,
+  } = ProductDetailsData;
+
   const sizes = [
     { id: 1, size: "XS" },
     { id: 2, size: "S" },
@@ -13,29 +28,27 @@ const SpecificProductDetails = () => {
     <div>
       <div className="">
         <h2 className="text-2xl font-semibold font-inter text-text_black000000">
-          Havic HV G-92 Gamepad
+          {title || "Havic HV G-92 Gamepad"}
         </h2>
         <div className="flex items-start gap-x-3 mt-4">
-          <Star rating={4} />
+          <Star rating={rating} />
           <span className="inline-block text-text_black000000 font-normal font-popins text-md opacity-50">
-            120 Review
+            {reviews?.length} Review
           </span>
           <span className="inline-block  text-text_black000000 opacity-50">
             {" "}
             |{" "}
           </span>
           <span className="inline-block font-normal font-popins text-md text-button00FF66">
-            In Stock
+            {stock} Stock
           </span>
         </div>
         <p className="text-2xl font-normal font-inter text-text_black000000 mt-4">
-          $192.00
+          $ {Math.round(useCalculateDiscount(price, discountPercentage)) || 0}
         </p>
 
         <h4 className="text-md font-normal font-inter text-text_black000000 mt-4 w-[60%] border-b-[2px] border-b-gray-300 pb-10">
-          PlayStation 5 Controller Skin High quality vinyl with air channel
-          adhesive for easy bubble free install & mess free removal Pressure
-          sensitive.
+          {description || "Missing"}
         </h4>
       </div>
       {/* card and size component */}
@@ -97,6 +110,38 @@ const SpecificProductDetails = () => {
           </div>
         </div>
         {/* button */}
+
+        {/* condition  */}
+        <div className="mt-10">
+          <div className="flex items-center gap-x-3 border border-gray-300 w-[55%] px-14 py-4">
+            <span className="text-4xl">
+              <TbTruckDelivery />
+            </span>
+            <div>
+              <h4 className="text-[16px]  font-medium font-popins text-text_black000000">
+                Free Delivery
+              </h4>
+              <p className="text-[12px]  font-medium font-popins text-text_black000000">
+                {warrantyInformation}
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-x-3 border border-gray-300 w-[55%] px-14 py-4">
+            <span className="text-4xl">
+              <TbTruckDelivery />
+            </span>
+            <div>
+              <h4 className="text-[16px]  font-medium font-popins text-text_black000000">
+                Return Delivery
+              </h4>
+              <p className="text-[12px]  font-medium font-popins text-text_black000000">
+                {returnPolicy}
+              </p>
+            </div>
+          </div>
+        </div>
+        {/* condition  */}
       </div>
     </div>
   );
