@@ -3,7 +3,8 @@ import { category } from "../../../../Data/data";
 import "slick-carousel/slick/slick.css";
 import Slider from "react-slick";
 import { LiaAngleRightSolid } from "react-icons/lia";
-import Bannerimg from "../../../assets/banner/banner.jpg";
+import BannerSkeleton from "../../Skeletion/bannerSkeletion.jsx";
+import { useGetAllBannerQuery } from "../../../Features/Api/exlusiveApi.js";
 const Banner = () => {
   const [currentSlide, setcurrentSlide] = useState(0);
   const settings = {
@@ -58,6 +59,9 @@ const Banner = () => {
     },
   };
 
+  const { data, error, isLoading } = useGetAllBannerQuery();
+  console.log(data?.data);
+
   return (
     <div>
       <div className="container">
@@ -78,19 +82,23 @@ const Banner = () => {
               ))}
             </ul>
           </div>
-          <div className="w-[77%] h-[344px] pl-[45px] mt-10">
+          <div className="w-[77%] h-[440px] pl-[45px] mt-10">
             <div className="slider-container">
-              <Slider {...settings}>
-                {[...new Array(10)].map((_, index) => (
-                  <div key={index}>
-                    <img
-                      src={Bannerimg}
-                      alt={Bannerimg}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                ))}
-              </Slider>
+              {isLoading ? (
+                <BannerSkeleton />
+              ) : (
+                <Slider {...settings}>
+                  {data?.data.map((banner, index) => (
+                    <div key={index}>
+                      <img
+                        src={banner.image}
+                        alt={banner.image}
+                        className="w-full h-[440px] object-cover"
+                      />
+                    </div>
+                  ))}
+                </Slider>
+              )}
             </div>
           </div>
         </div>
