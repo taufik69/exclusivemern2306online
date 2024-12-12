@@ -60,7 +60,6 @@ const Banner = () => {
   };
 
   const { data, error, isLoading } = useGetAllBannerQuery();
-  console.log(data?.data);
 
   return (
     <div>

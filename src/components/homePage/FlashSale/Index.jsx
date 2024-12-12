@@ -1,9 +1,12 @@
 import React, { useEffect } from "react";
 import ProductCommonLayout from "../../CommonCoponents/ProductCommonLayout";
 import ProductCard from "../../CommonCoponents/ProductCard";
-import { useGetAllProductQuery } from "../../../Features/Api/ProductApi";
+import { useGetAllFlashSaleQuery } from "../../../Features/Api/exlusiveApi";
 const FlashSale = () => {
-  const { data, error, isLoading } = useGetAllProductQuery();
+  const { data, error, isLoading } = useGetAllFlashSaleQuery();
+  const allFlashSale = data?.data?.map((item) => {
+    return item.product;
+  });
 
   return (
     <div className="container">
@@ -16,7 +19,7 @@ const FlashSale = () => {
           heading="Today's"
           description="Flash Sales"
           partialItemShow={8}
-          componentData={data?.products}
+          componentData={allFlashSale}
           isLoading={isLoading}
         />
         <div className="pb-20 ">

@@ -7,7 +7,7 @@ import { GiConsoleController } from "react-icons/gi";
 import { RiComputerLine } from "react-icons/ri";
 import ProductCommonLayout from "../../CommonCoponents/ProductCommonLayout";
 import CategoryItem from "../../CommonCoponents/CategoryItem";
-
+import { useGetAllCategoryQuery } from "../../../Features/Api/exlusiveApi";
 const categorybrowse = [
   {
     id: 1,
@@ -57,6 +57,8 @@ const categorybrowse = [
   },
 ];
 const Category = () => {
+  const { data, isLoading, error } = useGetAllCategoryQuery();
+
   return (
     <div>
       <ProductCommonLayout
@@ -65,7 +67,7 @@ const Category = () => {
         isArrowsTrue={true}
         ProductCard={CategoryItem}
         partialItemShow={6}
-        componentData={categorybrowse}
+        componentData={data?.data}
       />
     </div>
   );
