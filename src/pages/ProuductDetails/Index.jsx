@@ -4,7 +4,7 @@ import ImageGallery from "../../components/CommonCoponents/ProductDetails/ImageG
 
 import SpecificProductDetails from "../../components/CommonCoponents/ProductDetails/SpecificProductDetails.jsx";
 import { useParams } from "react-router-dom";
-import ProductDetailsSkeletion from "../../components/Skeletion/productDetails.skeletion.jsx";
+import ProductDetailsSkeletion from "../../components/Skeletion/ProductDetailsSkeletion.jsx";
 import Heading from "../../components/CommonCoponents/Heading.jsx";
 import Slider from "react-slick";
 import {

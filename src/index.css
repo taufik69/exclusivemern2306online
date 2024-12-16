@@ -127,4 +127,10 @@
     -moz-box-shadow: 0px 0px 161px 160px rgba(128, 18, 128, 1);
     box-shadow: 0px 0px 161px 160px rgba(128, 18, 128, 1);
   }
+
+  .acountStyle {
+    font-family: var(--popins);
+    font-weight: 400;
+    color: var(--text_black000000);
+  }
 }
