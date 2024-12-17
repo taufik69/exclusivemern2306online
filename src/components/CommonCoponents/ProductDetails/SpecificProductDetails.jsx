@@ -4,18 +4,8 @@ import { IoIosHeartEmpty } from "react-icons/io";
 import { TbTruckDelivery } from "react-icons/tb";
 import useCalculateDiscount from "../../../hooks/useCalculateDiscount";
 const SpecificProductDetails = ({ ProductDetailsData }) => {
-  const {
-    title,
-    description,
-    rating,
-    price,
-    stock,
-    warrantyInformation,
-    returnPolicy,
-    discountPercentage,
-
-    reviews,
-  } = ProductDetailsData;
+  const { name, description, rating, price, stock, discount, review } =
+    ProductDetailsData;
 
   const sizes = [
     { id: 1, size: "XS" },
@@ -28,12 +18,12 @@ const SpecificProductDetails = ({ ProductDetailsData }) => {
     <div>
       <div className="">
         <h2 className="text-2xl font-semibold font-inter text-text_black000000">
-          {title || "Havic HV G-92 Gamepad"}
+          {name || "Havic HV G-92 Gamepad"}
         </h2>
         <div className="flex items-start gap-x-3 mt-4">
           <Star rating={rating} />
           <span className="inline-block text-text_black000000 font-normal font-popins text-md opacity-50">
-            {reviews?.length} Review
+            {review?.length} Review
           </span>
           <span className="inline-block  text-text_black000000 opacity-50">
             {" "}
@@ -44,7 +34,7 @@ const SpecificProductDetails = ({ ProductDetailsData }) => {
           </span>
         </div>
         <p className="text-2xl font-normal font-inter text-text_black000000 mt-4">
-          $ {Math.round(useCalculateDiscount(price, discountPercentage)) || 0}
+          $ {Math.round(useCalculateDiscount(price, discount)) || 0}
         </p>
 
         <h4 className="text-md font-normal font-inter text-text_black000000 mt-4 w-[60%] border-b-[2px] border-b-gray-300 pb-10">
@@ -122,7 +112,7 @@ const SpecificProductDetails = ({ ProductDetailsData }) => {
                 Free Delivery
               </h4>
               <p className="text-[12px]  font-medium font-popins text-text_black000000">
-                {warrantyInformation}
+                {"nei"}
               </p>
             </div>
           </div>
@@ -136,7 +126,7 @@ const SpecificProductDetails = ({ ProductDetailsData }) => {
                 Return Delivery
               </h4>
               <p className="text-[12px]  font-medium font-popins text-text_black000000">
-                {returnPolicy}
+                {"NEI"}
               </p>
             </div>
           </div>

@@ -16,7 +16,7 @@ const ProductLeft = ({ categoryData, isLoading }) => {
                 key={index}
                 className="flex items-center justify-between hover:bg-gray-200 transition-all"
               >
-                <li className="flex animate-pulse bg-gray-300 rounded w-full py-4 my-3"></li>
+                <li className="flex animate-pulse bg-gray-300 rounded w-full py-4 my-3 mr-5"></li>
               </div>
             ))}
         </ul>
@@ -25,7 +25,7 @@ const ProductLeft = ({ categoryData, isLoading }) => {
           {categoryData?.map((item) => (
             <div className="flex items-center justify-between hover:bg-gray-200 transition-all">
               <li className="font-popins hover:px-5 transition-all text-md text-text_black000000 font-normal py-3 cursor-pointer capitalize">
-                {item}
+                {item.name}
               </li>
             </div>
           ))}
