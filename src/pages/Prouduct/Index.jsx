@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import ProductLeft from "../../components/ProductPageComponent/ProductLeft";
 import { BreadCrumb } from "../../components/CommonCoponents/BreadCrumb";
 import ProductRight from "../../components/ProductPageComponent/ProductRight";
-import {
-  useGetAllCategoryQuery,
-} from "../../Features/Api/exlusiveApi";
+import { useGetAllCategoryQuery } from "../../Features/Api/exlusiveApi";
 const ProductPage = () => {
+  const [categoryid, setCategoryid] = useState("");
+
   const { data, error, isLoading } = useGetAllCategoryQuery();
+  const handleCategory = (id) => {
+    setCategoryid(id);
+  };
 
   return (
     <div className="container py-20">
@@ -16,8 +19,9 @@ const ProductPage = () => {
           categoryData={data?.data}
           isLoading={isLoading}
           error={error}
+          handleCategory={handleCategory}
         />
-        <ProductRight />
+        <ProductRight categorywiseData={categoryid} />
       </div>
     </div>
   );

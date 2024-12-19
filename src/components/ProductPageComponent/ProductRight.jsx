@@ -1,9 +1,14 @@
 import React, { useState } from "react";
 import ProductCard from "../CommonCoponents/ProductCard";
-import { useGetAllProductQuery } from "../../Features/Api/exlusiveApi";
-const ProductRight = () => {
-  const { data, isLoading, error } = useGetAllProductQuery();
-  console.log(data);
+import {
+  useGetAllProductQuery,
+  useGetSingleCategoryQuery,
+} from "../../Features/Api/exlusiveApi";
+const ProductRight = ({ categorywiseData }) => {
+  const { data, isLoading, error } = categorywiseData
+    ? useGetSingleCategoryQuery(categorywiseData)
+    : useGetAllProductQuery();
+
   const [page, setpage] = useState(1);
   const [pagePerShow, setpagePerShow] = useState(9);
   let totalPage = data?.data?.length / 9;
@@ -19,6 +24,7 @@ const ProductRight = () => {
   const handleOption = (e) => {
     setpagePerShow(e.target.value);
   };
+
   return (
     <div className="w-[75%]">
       <div className="flex justify-end items-center gap-x-2">
@@ -38,11 +44,19 @@ const ProductRight = () => {
       </div>
       {/* product */}
       <div className="flex flex-wrap justify-between">
-        {data?.data?.slice(page * 9 - 9, page * pagePerShow).map((item) => (
-          <div className="w-[30%]">
-            <ProductCard itemData={item} />
-          </div>
-        ))}
+        {categorywiseData
+          ? data?.data?.product
+              ?.slice(page * 9 - 9, page * pagePerShow)
+              .map((item) => (
+                <div className="w-[30%]">
+                  <ProductCard itemData={item} />
+                </div>
+              ))
+          : data?.data?.slice(page * 9 - 9, page * pagePerShow).map((item) => (
+              <div className="w-[30%]">
+                <ProductCard itemData={item} />
+              </div>
+            ))}
       </div>
 
       <div
