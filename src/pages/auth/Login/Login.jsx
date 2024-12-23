@@ -3,6 +3,7 @@ import login from "../../../assets/login/login.gif";
 import { useFormik } from "formik";
 import { loginSchema } from "../../../Validation/Schema/LoginSchema";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { Link } from "react-router-dom";
 const Login = () => {
   const [eye, setEye] = useState(false);
   const initialValue = {
@@ -84,9 +85,12 @@ const Login = () => {
                   >
                     Log In
                   </button>
-                  <span className="text-redDB4444 font-popins font-medium  text-[16px] cursor-pointer">
+                  <Link
+                    to="/forgotpassword"
+                    className="text-redDB4444 font-popins font-medium  text-[16px] cursor-pointer"
+                  >
                     Forget Password?
-                  </span>
+                  </Link>
                 </div>
               </form>
             </div>
