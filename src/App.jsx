@@ -15,6 +15,7 @@ import WishList from "./components/WishListComponent/Index";
 import AddToCart from "./pages/AddtoCart/AddToCart";
 import MYAcount from "./pages/myAcount/Index";
 import About from "./pages/About/Index";
+import Contact from "./pages/Contact/Contact";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
@@ -28,6 +29,7 @@ const router = createBrowserRouter(
         <Route path="/addtocart" element={<AddToCart />}></Route>
         <Route path="/myacount" element={<MYAcount />}></Route>
         <Route path="/about" element={<About />}></Route>
+        <Route path="/contact" element={<Contact />}></Route>
       </Route>
     </Route>
   )
