@@ -29,7 +29,7 @@ const router = createBrowserRouter(
         <Route path="/productdetails" element={<ProductPage />}></Route>
         <Route path="/login" element={<Login />}></Route>
         <Route path="/wishlist" element={<WishList />}></Route>
-        <Route path="/addtocart" element={<AddToCart />}></Route>
+        <Route path="/cart" element={<AddToCart />}></Route>
         <Route path="/myacount" element={<MYAcount />}></Route>
         <Route path="/about" element={<About />}></Route>
         <Route path="/contact" element={<Contact />}></Route>

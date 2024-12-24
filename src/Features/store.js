@@ -1,10 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
-import counterSlice from "./AllSlice/countSlice";
+import { getTotal } from "./AllSlice/cartSlice";
+import cartslice from "./AllSlice/cartSlice";
 import { ProductApi } from "./Api/ProductApi";
 import { exclusiveApi } from "./Api/exlusiveApi";
 export const store = configureStore({
   reducer: {
-    count: counterSlice,
+    cart: cartslice,
     [ProductApi.reducerPath]: ProductApi.reducer,
     [exclusiveApi.reducerPath]: exclusiveApi.reducer,
   },
@@ -13,3 +14,5 @@ export const store = configureStore({
       .concat(ProductApi.middleware)
       .concat(exclusiveApi.middleware),
 });
+
+store.dispatch(getTotal());
