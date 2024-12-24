@@ -7,30 +7,36 @@ import { IoMdStarOutline } from "react-icons/io";
 import { LuShoppingBag, LuUser } from "react-icons/lu";
 import { RiLogoutCircleLine } from "react-icons/ri";
 import { Link, NavLink } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 const Navbar = () => {
+  const dispatch = useDispatch();
+  const { cartTotalItem } = useSelector((state) => state.cart);
+
+  console.log(cartTotalItem);
+
   const navItem = [
     {
       id: 1,
       item: "Home",
-      Routetitle: "/",
+      pathRoute: "/",
     },
 
     {
       id: 2,
-      item: "product",
-      Routetitle: "/product",
+      item: "Contact",
+      pathRoute: "/contact",
     },
 
     {
       id: 3,
-      item: "Account",
-      Routetitle: "/myacount",
+      item: "Product",
+      pathRoute: "/product",
     },
 
     {
       id: 4,
-      item: "about",
-      Routetitle: "/about",
+      item: "SignUp",
+      pathRoute: "/singup",
     },
   ];
   const [account, setAccount] = useState(false);
@@ -53,7 +59,7 @@ const Navbar = () => {
               {navItem?.map((nav) => (
                 <li key={nav.id} className="menuUnderLine">
                   <NavLink
-                    to={`${nav.Routetitle}`}
+                    to={`${nav.pathRoute}`}
                     className={({ isPending, isActive }) =>
                       isPending
                         ? "text-black text-[17px] font-normal font-popins"
