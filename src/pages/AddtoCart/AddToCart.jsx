@@ -1,17 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BreadCrumb } from "../../components/CommonCoponents/BreadCrumb.jsx";
-import productOne from "../../../src/assets/cart/p1.png";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { useSelector, useDispatch } from "react-redux";
 import {
   removeCart,
   increment,
   decrement,
+  getTotal,
 } from "../../Features/AllSlice/cartSlice.js";
 import { Link } from "react-router-dom";
 const AddToCart = () => {
   const dispatch = useDispatch();
-  const cartItem = useSelector((state) => state?.cart?.value);
+  useEffect(() => {
+    dispatch(getTotal());
+  }, [localStorage.getItem("cartItem")]);
+  const { value, cartTotalItem, cartTotalAmount } = useSelector(
+    (state) => state?.cart
+  );
 
   //
   const handleRemoveCart = (item) => {
@@ -56,14 +61,14 @@ const AddToCart = () => {
 
         {/* carti tem */}
         <div className="custom_scrollbar w-full h-[500px] overflow-y-scroll ">
-          {cartItem?.map((item) => (
-            <div className="mb-10" key={item._id}>
+          {value?.map((item) => (
+            <div className="mb-10" key={item?._id}>
               <div className="flex justify-between shadow-lg rounded">
                 <div className="flex-1 py-6  flex justify-start">
                   <div className="flex pl-10 items-center gap-x-5 relative ">
                     <img
-                      src={item.image[0]}
-                      alt={productOne}
+                      src={item?.image[0]}
+                      alt={item?.image[0]}
                       className="w-[54px] h-[54px] object-contain"
                     />
                     <span
@@ -73,20 +78,20 @@ const AddToCart = () => {
                       X
                     </span>
                     <h1 className="text-[16px] font-popins font-normal text-text_black000000 ">
-                      {item.name}
+                      {item?.name}
                     </h1>
                   </div>
                 </div>
                 <div className=" flex-1  py-6 flex justify-center">
                   <h1 className="text-[20px] font-popins font-normal text-text_black000000">
-                    ${item.price}
+                    ${item?.price}
                   </h1>
                 </div>
                 <div className=" flex-1  py-6 flex   justify-center">
                   <div className="flex items-center justify-center gap-x-3 w-[100px] rounded border border-gray-400">
                     <input
                       type="text"
-                      value={item.cartQuantity}
+                      value={item?.cartQuantity}
                       className=" w-[25px] text-[20px] font-popins font-normal text-text_black000000"
                     />
                     <div className="flex flex-col items-center justify-center">
@@ -102,7 +107,7 @@ const AddToCart = () => {
                 </div>
                 <div className=" flex-1 flex justify-end py-6">
                   <h1 className="text-[20px] font-popins font-normal text-text_black000000 pr-10">
-                    ${item.price * item.cartQuantity}
+                    ${item?.price * item?.cartQuantity}
                   </h1>
                 </div>
               </div>
@@ -146,18 +151,18 @@ const AddToCart = () => {
               </h1>
 
               <div className="justify-between   relative inline-flex items-center w-full px-4 py-2 font-popins font-normal text-text_black000000 text-[16px border-b border-gray-200 rounded-t-lg hover:bg-gray-100">
-                <button type="button">Subtotal:</button>
+                <button type="button">Discount:</button>
                 <span className="inline-block font-popins font-normal text-text_black000000 text-[16px]">
                   {" "}
-                  $1750
+                  0%
                 </span>
               </div>
 
               <div className="justify-between   relative inline-flex items-center w-full px-4 py-2 font-popins font-normal text-text_black000000 text-[16px border-b border-gray-200 rounded-t-lg hover:bg-gray-100">
-                <button type="button">Shipping:</button>
+                <button type="button">Quantity:</button>
                 <span className="inline-block font-popins font-normal text-text_black000000 text-[16px]">
                   {" "}
-                  $1750
+                  {cartTotalItem}
                 </span>
               </div>
 
@@ -165,7 +170,7 @@ const AddToCart = () => {
                 <button type="button">Total:</button>
                 <span className="inline-block font-popins font-normal text-text_black000000 text-[16px]">
                   {" "}
-                  $1750
+                  ${cartTotalAmount}
                 </span>
               </div>
             </div>

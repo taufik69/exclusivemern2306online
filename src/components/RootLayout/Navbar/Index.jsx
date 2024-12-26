@@ -12,8 +12,6 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const { cartTotalItem } = useSelector((state) => state.cart);
 
-  console.log(cartTotalItem);
-
   const navItem = [
     {
       id: 1,
@@ -89,7 +87,10 @@ const Navbar = () => {
               <span className="text-text_black7D8184 text-2xl cursor-pointer">
                 <FaRegHeart />
               </span>
-              <span className="text-text_black7D8184 text-2xl amount cursor-pointer">
+              <span
+                className="text-text_black7D8184 text-2xl amount cursor-pointer"
+                data-cartTotalItem={cartTotalItem}
+              >
                 <BsCart />
               </span>
               <span

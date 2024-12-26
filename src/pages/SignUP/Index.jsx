@@ -1,14 +1,70 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-
+import { axiosInstace } from "../../helpers/axios";
+import { errorToast, successToast } from "../../helpers/Toast";
 const SignUP = () => {
+  const [loading, setloading] = useState(false);
+  const [singupInfo, setsingUpInfo] = useState({
+    firstName: "",
+    phone: "",
+    email: "",
+    passoword: "",
+    confrimPassword: "",
+    agree: false,
+  });
+
+  const handlesingup = (e) => {
+    const { id, value } = e.target;
+    setsingUpInfo({
+      ...singupInfo,
+      [id]: id === "agree" ? !singupInfo.agree : value,
+    });
+  };
+
+  const handleSignup = async () => {
+    try {
+      const { firstName, phone, email, passoword, confrimPassword } =
+        singupInfo;
+      if (!firstName || !phone || !email || !passoword || !confrimPassword) {
+        alert("Credential Missing");
+      } else if (passoword !== confrimPassword) {
+        alert("Password Not Match");
+      } else {
+        setloading(true);
+        const resposne = await axiosInstace.post("auth/registration", {
+          firstName: firstName,
+          email: email,
+          mobile: phone,
+          password: passoword,
+        });
+        if (resposne.statusText == "OK") {
+          successToast(`${firstName} ${resposne.data?.message}`);
+        }
+      }
+    } catch (error) {
+      // const { message } = error.resposne?.data;
+      console.error("Error from singup ", error);
+      errorToast(`${error.response.data.message}`);
+    } finally {
+      setloading(false);
+      setsingUpInfo({
+        firstName: "",
+        phone: "",
+        email: "",
+        passoword: "",
+        confrimPassword: "",
+        agree: false,
+      });
+    }
+  };
+
   return (
     <div className="my-20">
       {/* <!-- component --> */}
 
       <div class="bg-white container">
         <div class="lg:grid lg:min-h-screen lg:grid-cols-12">
-          <section class="relative flex h-32 items-end bg-gray-900 lg:col-span-5 lg:h-full xl:col-span-6">
+          <div class="relative flex h-32 items-end bg-gray-900 lg:col-span-5 lg:h-full xl:col-span-6">
             <img
               alt=""
               src="https://images.unsplash.com/photo-1617195737496-bc30194e3a19?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
@@ -40,7 +96,7 @@ const SignUP = () => {
                 Eligendi nam dolorum aliquam, quibusdam aperiam voluptatum.
               </p>
             </div>
-          </section>
+          </div>
 
           <main class="flex items-center justify-center px-8 py-8 sm:px-12 lg:col-span-7 lg:px-16 lg:py-12 xl:col-span-6">
             <div class="max-w-xl lg:max-w-3xl">
@@ -73,19 +129,25 @@ const SignUP = () => {
                 </p>
               </div>
 
-              <form action="#" class="mt-8 grid grid-cols-6 gap-6">
+              <form
+                action="#"
+                class="mt-8 grid grid-cols-6 gap-6"
+                onSubmit={(e) => e.preventDefault()}
+              >
                 <div class="col-span-6 sm:col-span-3">
                   <label
                     for="FirstName"
                     class="block text-sm font-medium text-gray-700"
                   >
-                    First Name
+                    First Name <span className="text-redDB4444">* </span>
                   </label>
 
                   <input
                     type="text"
-                    id="FirstName"
-                    name="first_name"
+                    id="firstName"
+                    name="firstName"
+                    value={singupInfo.firstName}
+                    onChange={handlesingup}
                     class="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
                   />
                 </div>
@@ -95,13 +157,15 @@ const SignUP = () => {
                     for="LastName"
                     class="block text-sm font-medium text-gray-700"
                   >
-                    Last Name
+                    phone <span className="text-redDB4444">* </span>
                   </label>
 
                   <input
                     type="text"
-                    id="LastName"
-                    name="last_name"
+                    value={singupInfo.phone}
+                    onChange={handlesingup}
+                    id="phone"
+                    name="phone"
                     class="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
                   />
                 </div>
@@ -112,13 +176,15 @@ const SignUP = () => {
                     class="block text-sm font-medium text-gray-700"
                   >
                     {" "}
-                    Email{" "}
+                    Email <span className="text-redDB4444">* </span>
                   </label>
 
                   <input
                     type="email"
-                    id="Email"
+                    id="email"
+                    value={singupInfo.email}
                     name="email"
+                    onChange={handlesingup}
                     class="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
                   />
                 </div>
@@ -129,13 +195,15 @@ const SignUP = () => {
                     class="block text-sm font-medium text-gray-700"
                   >
                     {" "}
-                    Password{" "}
+                    Password <span className="text-redDB4444">* </span>
                   </label>
 
                   <input
                     type="password"
-                    id="Password"
+                    id="passoword"
                     name="password"
+                    value={singupInfo.passoword}
+                    onChange={handlesingup}
                     class="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
                   />
                 </div>
@@ -150,8 +218,10 @@ const SignUP = () => {
 
                   <input
                     type="password"
-                    id="PasswordConfirmation"
-                    name="password_confirmation"
+                    id="confrimPassword"
+                    value={singupInfo.confrimPassword}
+                    onChange={handlesingup}
+                    name="confrimPasswords"
                     class="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
                   />
                 </div>
@@ -160,8 +230,10 @@ const SignUP = () => {
                   <label for="MarketingAccept" class="flex gap-4">
                     <input
                       type="checkbox"
-                      id="MarketingAccept"
-                      name="marketing_accept"
+                      id="agree"
+                      name="agree"
+                      value={singupInfo.agree}
+                      onChange={handlesingup}
                       class="size-5 rounded-md border-gray-200 bg-white shadow-sm"
                     />
 
@@ -188,9 +260,22 @@ const SignUP = () => {
                 </div>
 
                 <div class="col-span-6 sm:flex sm:items-center sm:gap-4">
-                  <button class="inline-block shrink-0 rounded-md border  bg-redDB4444 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500">
-                    Create an account
-                  </button>
+                  {loading ? (
+                    <button
+                      type="button"
+                      class="inline-blockz shrink-0 rounded-md border  bg-redDB4444 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 "
+                    >
+                      Loadin...
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={handleSignup}
+                      class="inline-blockz shrink-0 rounded-md border  bg-redDB4444 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 "
+                    >
+                      Sign up
+                    </button>
+                  )}
 
                   <p class="mt-4 text-sm text-gray-500 sm:mt-0">
                     Already have an account?
