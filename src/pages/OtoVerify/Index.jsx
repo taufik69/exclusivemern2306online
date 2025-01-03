@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { axiosInstace } from "../../helpers/axios";
+import { successToast } from "../../helpers/Toast";
 const OTPverify = () => {
   const parms = useParams();
+  const navigate = useNavigate();
   const [otp, setotp] = useState("");
 
   const handleinput = (num) => {
@@ -15,9 +18,33 @@ const OTPverify = () => {
     });
   };
   // Log the updated state whenever `otp` changes
-  useEffect(() => {
-    console.log("Updated OTP:", otp.length);
-  }, [otp]);
+  useEffect(() => {}, [otp]);
+
+  const handleOpt = (e) => {
+    setotp(e.target.value);
+  };
+
+  // handleSubmitOpt
+  const handleSubmitOpt = async () => {
+    try {
+      const otpverifyData = await axiosInstace.post("/auth/verify-otp", {
+        email: parms.email,
+        otp: otp,
+      });
+
+      successToast(`${otpverifyData.data.data.message}`);
+    } catch (error) {
+      console.error("error from optverify page", error);
+
+      errorToast(`${error.response.data.message}`);
+    } finally {
+      setotp("");
+      navigate("/login");
+    }
+  };
+
+  console.log(otp);
+
   return (
     <div>
       <div className="w-screen h-screen flex justify-center items-center bg-green-900">
@@ -43,6 +70,7 @@ const OTPverify = () => {
                       type="number"
                       placeholder="Enter Code here"
                       value={otp}
+                      onChange={handleOpt}
                     />
                   </div>
                   <div className="text-center text-xs font-base my-10">
@@ -135,7 +163,10 @@ const OTPverify = () => {
                         >
                           0
                         </div>
-                        <div className="w-1/3 px-2 hover:bg-green-800 rounded cursor-pointer my-auto py-2">
+                        <div
+                          className="w-1/3 px-2 hover:bg-yellow-800 rounded cursor-pointer my-auto py-2"
+                          onClick={handleSubmitOpt}
+                        >
                           <div className=" px-10 py-2">
                             <svg
                               stroke="currentColor"

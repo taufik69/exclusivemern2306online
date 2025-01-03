@@ -3,9 +3,12 @@ import login from "../../../assets/login/login.gif";
 import { useFormik } from "formik";
 import { loginSchema } from "../../../Validation/Schema/LoginSchema";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { axiosInstace } from "../../../helpers/axios";
+import { errorToast, successToast } from "../../../helpers/Toast";
 const Login = () => {
   const [eye, setEye] = useState(false);
+  const navigate = useNavigate();
   const initialValue = {
     emailorphone: "",
     Password: "",
@@ -13,8 +16,22 @@ const Login = () => {
   const formik = useFormik({
     initialValues: initialValue,
     validationSchema: loginSchema,
-    onSubmit: (value) => {
-      console.log(value);
+    onSubmit: async (value, action) => {
+      try {
+        const loginData = await axiosInstace.post("/auth/login", {
+          emailorphone: value.emailorphone,
+          password: value.Password,
+        });
+
+        if (loginData.statusText == "OK") {
+          successToast(`${loginData.data?.message}`);
+        }
+      } catch (error) {
+        console.error("Error from singup ", error);
+        errorToast(`${error.response.data.message}`);
+      } finally {
+        navigate("/");
+      }
     },
   });
   return (

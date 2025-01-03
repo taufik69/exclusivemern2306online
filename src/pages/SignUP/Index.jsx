@@ -31,7 +31,7 @@ const SignUP = () => {
         alert("Password Not Match");
       } else {
         setloading(true);
-        const resposne = await axiosInstace.post("auth/registration", {
+        const resposne = await axiosInstace.post("/auth/registration", {
           firstName: firstName,
           email: email,
           mobile: phone,
