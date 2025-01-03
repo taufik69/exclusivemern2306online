@@ -8,7 +8,7 @@ const ProductLeft = ({ categoryData, isLoading, handleCategory }) => {
   const handledropdown = (id) => {
     setOpenDropdown(openDropdown === id ? null : id);
   };
-  console.log(openDropdown);
+  
 
   return (
     <div className="w-[23%] border-r-[1.5px] border-r-text_black7D8184">
