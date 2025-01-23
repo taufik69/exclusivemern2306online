@@ -20,6 +20,9 @@ import Error from "./pages/Error/Index";
 import SignUP from "./pages/SignUP/Index";
 import ForgotPassword from "./pages/ForgotPassword/Index";
 import OTPverify from "./pages/OtoVerify/Index";
+import Success from "./pages/Sucess/Index";
+import PaymentFailed from "./pages/paymentFailed/Index";
+import PaymentCancel from "./pages/PaymentCancel/Index";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
@@ -38,6 +41,9 @@ const router = createBrowserRouter(
         <Route path="/singup" element={<SignUP />}></Route>
         <Route path="/forgotpassword" element={<ForgotPassword />} />
         <Route path="/otpverify/:email" element={<OTPverify />}></Route>
+        <Route path="/Success" element={<Success />}></Route>
+        <Route path="/failed" element={<PaymentFailed />}></Route>
+        <Route path="/cancel" element={<PaymentCancel />}></Route>
       </Route>
     </Route>
   )
