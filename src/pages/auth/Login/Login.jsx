@@ -18,19 +18,25 @@ const Login = () => {
     validationSchema: loginSchema,
     onSubmit: async (value, action) => {
       try {
-        const loginData = await axiosInstace.post("/auth/login", {
-          emailorphone: value.emailorphone,
-          password: value.Password,
-        });
+        const loginData = await axiosInstace.post(
+          "/auth/login",
+          {
+            emailorphone: value.emailorphone,
+            password: value.Password,
+          },
+          {
+            withCredentials: "include",
+          }
+        );
+        console.log(loginData);
 
         if (loginData.statusText == "OK") {
           successToast(`${loginData.data?.message}`);
+          navigate("/");
         }
       } catch (error) {
         console.error("Error from singup ", error);
         errorToast(`${error.response.data.message}`);
-      } finally {
-        navigate("/");
       }
     },
   });

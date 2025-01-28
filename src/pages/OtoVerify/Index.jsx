@@ -29,17 +29,17 @@ const OTPverify = () => {
     try {
       const otpverifyData = await axiosInstace.post("/auth/verify-otp", {
         email: parms.email,
-        otp: otp,
+        Otp: otp,
       });
 
       successToast(`${otpverifyData.data.data.message}`);
+      navigate("/login");
     } catch (error) {
       console.error("error from optverify page", error);
 
       errorToast(`${error.response.data.message}`);
     } finally {
       setotp("");
-      navigate("/login");
     }
   };
 

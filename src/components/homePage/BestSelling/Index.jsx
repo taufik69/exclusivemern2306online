@@ -4,7 +4,7 @@ import ProductCard from "../../CommonCoponents/ProductCard";
 import { useGetAllBestSellingProudctQuery } from "../../../Features/Api/exlusiveApi";
 const BestSellilng = () => {
   const { data, error, isLoading } = useGetAllBestSellingProudctQuery();
-  console.log(data?.data);
+
   const bestSellilngProduct = data?.data?.map((item) => {
     return item.product;
   });

@@ -1,9 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import Star from "../../CommonCoponents/Star";
 import { IoIosHeartEmpty } from "react-icons/io";
 import { TbTruckDelivery } from "react-icons/tb";
 import useCalculateDiscount from "../../../hooks/useCalculateDiscount";
+import { axiosInstace } from "../../../helpers/axios";
+import { useParams } from "react-router-dom";
 const SpecificProductDetails = ({ ProductDetailsData }) => {
+  const [loading, setloading] = useState(false);
+  const [count, setcount] = useState(1);
+  const [selectsize, setselectsize] = useState("");
+  const { id } = useParams();
+
   const { name, description, rating, price, stock, discount, review } =
     ProductDetailsData;
 
@@ -14,6 +21,32 @@ const SpecificProductDetails = ({ ProductDetailsData }) => {
     { id: 4, size: "L" },
     { id: 5, size: "XL" },
   ];
+
+  // handleAddtoCart funtion implent
+  const handleAddtoCart = async () => {
+    setloading(true);
+    try {
+      const response = await axiosInstace.post(
+        "/addtocart",
+        {
+          product: id,
+          quantity: 1,
+        },
+        {
+          withCredentials: "include",
+        }
+      );
+
+      console.log(response);
+    } catch (error) {
+      console.error("from product details page add to cart", error);
+    } finally {
+      setloading(false);
+    }
+  };
+
+  console.log(count);
+
   return (
     <div>
       <div className="">
@@ -62,13 +95,20 @@ const SpecificProductDetails = ({ ProductDetailsData }) => {
           </h2>
 
           <div className="flex items-center gap-x-3 ">
-            {sizes.map((size) => (
-              <div className="border-2 border-x-gray-300 rounded  w-[36px] h-[36px] flex items-center justify-center ">
+            {sizes.map((item) => (
+              <div
+                className={
+                  selectsize === item.size
+                    ? "border-2 border-x-gray-300 rounded  text-white cursor-pointer w-[36px] h-[36px] bg-redDB4444 flex items-center justify-center "
+                    : "border-2 border-x-gray-300 rounded  w-[36px] h-[36px] flex cursor-pointer items-center justify-center "
+                }
+                onClick={() => setselectsize(item.size)}
+              >
                 <span
                   className="inline-block text-[14px] font-bold  font-popins "
-                  key={size.id}
+                  key={item.id}
                 >
-                  {size.size}
+                  {item.size}
                 </span>
               </div>
             ))}
@@ -78,20 +118,41 @@ const SpecificProductDetails = ({ ProductDetailsData }) => {
         {/* button */}
         <div className="mt-10 flex items-center  gap-x-4">
           <div className="flex items-center">
-            <span className="px-4 py-2 border-2 border-gray-300 rounded-l-lg text-[20px] font-popins text-text_black000000 cursor-pointer hover:bg-redDB4444 hover:text-white_FFFFFF">
+            <span
+              className="px-4 py-2 border-2 border-gray-300 rounded-l-lg text-[20px] font-popins text-text_black000000 cursor-pointer hover:bg-redDB4444 hover:text-white_FFFFFF"
+              onClick={() => setcount((count += 1))}
+            >
               -
             </span>
             <span className="px-6 py-2 border-2 border-gray-300  text-[20px] font-popins text-text_black000000 border-l-0 cursor-pointer hover:bg-redDB4444 hover:text-white_FFFFFF">
-              2
+              {count}
             </span>
-            <span className="px-4 py-2 border-2 border-gray-300 rounded-r-lg text-[20px] font-popins text-text_black000000 border-l-0 cursor-pointer hover:bg-redDB4444 hover:text-white_FFFFFF">
+            <span
+              className="px-4 py-2 border-2 border-gray-300 rounded-r-lg text-[20px] font-popins text-text_black000000 border-l-0 cursor-pointer hover:bg-redDB4444 hover:text-white_FFFFFF"
+              onclick={() =>
+                setcount((prev) => {
+                  if (prev > 1) {
+                    count = count - 1;
+                  }
+                  return prev;
+                })
+              }
+            >
               +
             </span>
           </div>
-
-          <button className="py-[12px] px-[48px] bg-redDB4444 rounded-[5px] border-none font-popins font-medium text-white_FFFFFF text-[16px]">
-            Buy Now
-          </button>
+          {loading ? (
+            <button className="py-[12px] px-[48px] bg-redDB4444 rounded-[5px] border-none font-popins font-medium text-white_FFFFFF text-[16px]">
+              loading ...
+            </button>
+          ) : (
+            <button
+              className="py-[12px] px-[48px] bg-redDB4444 rounded-[5px] border-none font-popins font-medium text-white_FFFFFF text-[16px]"
+              onClick={handleAddtoCart}
+            >
+              Add to Cart
+            </button>
+          )}
 
           <div className="border-2 border-x-gray-300 rounded  py-1 px-3 cursor-pointer hover:bg-red-500 hover:text-white_FFFFFF ">
             <span className="inline-block text-3xl font-bold  font-popins  w-full h-full ">
