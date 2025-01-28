@@ -45,7 +45,7 @@ const ProductDetails = () => {
                 <ImageGallery image={data?.data?.image} />
               </div>
               <div className="w-full ">
-                <SpecificzProductDetails ProductDetailsData={data?.data} />
+                <SpecificProductDetails ProductDetailsData={data?.data} />
               </div>
             </div>
           </div>
