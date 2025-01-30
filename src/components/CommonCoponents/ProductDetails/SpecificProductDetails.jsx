@@ -3,10 +3,10 @@ import Star from "../../CommonCoponents/Star";
 import { IoIosHeartEmpty } from "react-icons/io";
 import { TbTruckDelivery } from "react-icons/tb";
 import useCalculateDiscount from "../../../hooks/useCalculateDiscount";
-import { axiosInstace } from "../../../helpers/axios";
 import { useParams } from "react-router-dom";
+import { useAddToCartMutation } from "../../../Features/Api/exlusiveApi";
+import { successToast } from "../../../helpers/Toast.js";
 const SpecificProductDetails = ({ ProductDetailsData }) => {
-  const [loading, setloading] = useState(false);
   const [count, setcount] = useState(1);
   const [selectsize, setselectsize] = useState("");
   const { id } = useParams();
@@ -22,30 +22,25 @@ const SpecificProductDetails = ({ ProductDetailsData }) => {
     { id: 5, size: "XL" },
   ];
 
+  // useAddToCartMutation call
+  const [AddToCart, { isLoading, isError, data }] = useAddToCartMutation();
+
   // handleAddtoCart funtion implent
   const handleAddtoCart = async () => {
-    setloading(true);
     try {
-      const response = await axiosInstace.post(
-        "/addtocart",
-        {
-          product: id,
-          quantity: 1,
-        },
-        {
-          withCredentials: "include",
-        }
-      );
-
-      console.log(response);
+      const response = await AddToCart({
+        product: id,
+        quantity: 1,
+      });
+      if (response) {
+        successToast("Add to Cart Sucessfull");
+      }
     } catch (error) {
       console.error("from product details page add to cart", error);
     } finally {
-      setloading(false);
+      setcount(1);
     }
   };
-
-  console.log(count);
 
   return (
     <div>
@@ -141,7 +136,7 @@ const SpecificProductDetails = ({ ProductDetailsData }) => {
               +
             </span>
           </div>
-          {loading ? (
+          {isLoading ? (
             <button className="py-[12px] px-[48px] bg-redDB4444 rounded-[5px] border-none font-popins font-medium text-white_FFFFFF text-[16px]">
               loading ...
             </button>

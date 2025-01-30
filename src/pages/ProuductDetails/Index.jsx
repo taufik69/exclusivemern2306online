@@ -12,6 +12,7 @@ import {
   useGetSingleProductQuery,
   useGetSingleCategoryQuery,
 } from "../../Features/Api/exlusiveApi.js";
+
 import ProductCard from "../../components/CommonCoponents/ProductCard.jsx";
 const ProductDetails = () => {
   const params = useParams();

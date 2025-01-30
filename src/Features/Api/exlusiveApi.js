@@ -5,7 +5,9 @@ export const exclusiveApi = createApi({
     baseUrl: `${import.meta.env.VITE_DOMAIN_NAME}${
       import.meta.env.VITE_API_BASE_URL
     }`,
+    credentials: "include",
   }),
+  tagTypes: ["cart"],
   endpoints: (builder) => ({
     GetAllBanner: builder.query({
       query: () => `/banner`,
@@ -29,6 +31,26 @@ export const exclusiveApi = createApi({
     GetSingleProduct: builder.query({
       query: (id) => `/product/${id}`,
     }),
+    GetuserCartItem: builder.query({
+      query: () => `/useritem`,
+      providesTags: ["cart"],
+    }),
+    AddToCart: builder.mutation({
+      query: (productid) => ({
+        url: `addtocart`,
+        method: "POST",
+        body: productid,
+      }),
+      invalidatesTags: ["cart"],
+    }),
+
+    RemoveCart: builder.mutation({
+      query: (cartId) => ({
+        url: `removecart?cartId=${cartId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["cart"],
+    }),
   }),
 });
 
@@ -40,4 +62,7 @@ export const {
   useGetAllBestSellingProudctQuery,
   useGetAllProductQuery,
   useGetSingleProductQuery,
+  useAddToCartMutation,
+  useGetuserCartItemQuery,
+  useRemoveCartMutation,
 } = exclusiveApi;
