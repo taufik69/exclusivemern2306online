@@ -15,11 +15,6 @@ import {
 import { Link } from "react-router-dom";
 import { successToast } from "../../helpers/Toast.js";
 const AddToCart = () => {
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getTotal());
-  }, [localStorage.getItem("cartItem")]);
-
   const { isLoading, data, isError } = useGetuserCartItemQuery();
   const [RemoveCart] = useRemoveCartMutation();
 
@@ -36,14 +31,13 @@ const AddToCart = () => {
     }
   };
 
-  // incrementitemc fucntion
-  const incrementitem = (item) => {
-    dispatch(increment(item));
+  // set data to localStrorage
+  const userData = {
+    firstName: data?.data?.cartITem[0]?.user?.firstName,
+    email: data?.data?.cartITem[0]?.user?.email,
+    mobile: data?.data?.cartITem[0]?.user?.mobile,
   };
-  const decrementItem = (item) => {
-    dispatch(decrement(item));
-  };
-
+  localStorage.setItem("user", JSON.stringify(userData));
   return (
     <div className="my-20">
       <div className="container">
@@ -74,6 +68,16 @@ const AddToCart = () => {
 
         {/* carti tem */}
         <div className="custom_scrollbar w-full h-[500px] overflow-y-scroll ">
+          {data?.data?.cartITem?.length == 0 && (
+            <Link
+              className="flex justify-center items-center w-full"
+              to={"/product"}
+            >
+              <button className="px-[48px] py-[16px] bg-transparent  text-text_black000000 text-[18px] font-medium font-popins border-[2px] border-gray-300 rounded">
+                Back To Shop
+              </button>
+            </Link>
+          )}
           {data?.data?.cartITem?.map((item) => (
             <div className="mb-10" key={item?._id}>
               <div className="flex justify-between shadow-lg rounded">

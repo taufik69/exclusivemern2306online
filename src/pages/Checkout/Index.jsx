@@ -1,8 +1,13 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { number } from "yup";
+import { useGetuserCartItemQuery } from "../../Features/Api/exlusiveApi";
+import { axiosInstace } from "../../helpers/axios";
+import { successToast } from "../../helpers/Toast";
 
 const Checkout = () => {
+  const { data } = useGetuserCartItemQuery();
+  const [loading, setloading] = useState(false);
   const [dataField, setDataField] = useState([
     "address1",
     "address2",
@@ -13,16 +18,20 @@ const Checkout = () => {
 
   const [userField, setuserField] = useState(["firstName", "email", "mobile"]);
 
+  // get the user info from localstroage
+  const userinfofromlocal = JSON.parse(localStorage.getItem("user"));
+
   const [userinfo, setUserinfo] = useState({
-    firstName: "John",
-    email: "john.doe@example.com",
-    mobile: "1234567890",
+    firstName: userinfofromlocal?.firstName,
+    email: userinfofromlocal?.email,
+    mobile: userinfofromlocal?.mobile,
     address1: "123 Main St",
     address2: "Apt 4B",
     town: "Springfield",
     district: "Central",
     postalcode: "12345",
     country: "USA",
+    payementmethod: "",
   });
 
   //   onChange={handleChange}
@@ -33,6 +42,66 @@ const Checkout = () => {
       ...userinfo,
       [name]: value,
     });
+  };
+
+  const handleOnfocus = (e) => {
+    const { name, value } = e.target;
+
+    if (name !== "firstName" || "email" || "mobile") {
+      return;
+    } else {
+      value = "";
+    }
+  };
+
+  //   handleOnlinePayment
+  const handleOnlinePayment = () => {
+    setUserinfo({
+      ...userinfo,
+      payementmethod: "online",
+    });
+  };
+
+  //   handleOnlinePayment
+  const handleOnlineCashOnDelivery = () => {
+    setUserinfo({
+      ...userinfo,
+      payementmethod: "cash",
+    });
+  };
+
+  // now fetch the api
+  const placeOrder = async () => {
+    try {
+      setloading(true);
+      const response = await axiosInstace.post(
+        "/placeorder",
+        {
+          customerinfo: {
+            address1: userinfo?.address1,
+            address2: userinfo.address2,
+            town: userinfo.town,
+            district: userinfo.district,
+            postalcode: userinfo.postalcode || 12345,
+          },
+          paymentinfo: {
+            payementmethod: userinfo?.payementmethod || "online",
+          },
+        },
+        {
+          withCredentials: "include",
+        }
+      );
+      if (response.data?.url) {
+        window.location.href = response.data.url;
+      } else {
+        successToast("Your order Placed Successfull");
+      }
+    } catch (error) {
+      console.log("error from place order", error);
+    } finally {
+      setloading(false);
+    }
   };
 
   return (
@@ -65,7 +134,7 @@ const Checkout = () => {
                           name={item}
                           value={userinfo[item]}
                           onChange={handleChange}
-                          onFocus={(e) => (e.target.value = "")}
+                          onFocus={handleOnfocus}
                           placeholder={item}
                           className="px-2 pb-2 focus:bg-gray-200 py-3 bg-white text-gray-800 w-full text-sm border-b focus:border-blue-600 outline-none"
                         />
@@ -93,30 +162,49 @@ const Checkout = () => {
                   </h2>
 
                   <div class="grid gap-4 sm:grid-cols-2 mt-4">
-                    <div class="flex items-center">
-                      <label for="card" class="flex gap-2 cursor-pointer">
-                        <img
-                          src="https://readymadeui.com/images/visa.webp"
-                          class="w-12"
-                          alt="card1"
-                        />
-                        <img
-                          src="https://readymadeui.com/images/american-express.webp"
-                          class="w-12"
-                          alt="card2"
-                        />
-                        <img
-                          src="https://readymadeui.com/images/master.webp"
-                          class="w-12"
-                          alt="card3"
-                        />
-                      </label>
+                    <div
+                      class="flex items-center"
+                      onClick={handleOnlinePayment}
+                    >
+                      {userinfo.payementmethod == "online" ? (
+                        <button
+                          type="button"
+                          className={
+                            "px-5 py-2.5 rounded-lg text-white text-sm tracking-wider font-medium border border-current outline-none bg-green-700 hover:bg-green-800 active:bg-green-700"
+                          }
+                        >
+                          Press Confrim Payment
+                        </button>
+                      ) : (
+                        <label for="card" class="flex gap-2 cursor-pointer">
+                          <img
+                            src="https://readymadeui.com/images/visa.webp"
+                            class="w-12"
+                            alt="card1"
+                          />
+                          <img
+                            src="https://readymadeui.com/images/american-express.webp"
+                            class="w-12"
+                            alt="card2"
+                          />
+                          <img
+                            src="https://readymadeui.com/images/master.webp"
+                            class="w-12"
+                            alt="card3"
+                          />
+                        </label>
+                      )}
                     </div>
 
                     <div class="flex items-center">
                       <button
                         type="button"
-                        class="px-5 py-2.5 rounded-lg text-white text-sm tracking-wider font-medium border border-current outline-none bg-red-700 hover:bg-orange-800 active:bg-orange-700"
+                        onClick={handleOnlineCashOnDelivery}
+                        className={
+                          userinfo.payementmethod == "cash"
+                            ? "px-5 py-2.5 rounded-lg text-white text-sm tracking-wider font-medium border border-current outline-none bg-green-700 hover:bg-green-800 active:bg-green-700"
+                            : "px-5 py-2.5 rounded-lg text-white text-sm tracking-wider font-medium border border-current outline-none bg-red-700 hover:bg-orange-800 active:bg-orange-700"
+                        }
                       >
                         Cash On Delivery
                       </button>
@@ -132,10 +220,13 @@ const Checkout = () => {
                     Back
                   </Link>
                   <button
+                    onClick={placeOrder}
                     type="button"
                     class="min-w-[150px] px-6 py-3.5 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700"
                   >
-                    Confirm payment $240
+                    {loading
+                      ? "loading ..."
+                      : ` Confirm payment $ ${data?.data?.totalamount}`}
                   </button>
                 </div>
               </form>
@@ -147,141 +238,44 @@ const Checkout = () => {
                   <h2 class="text-xl font-bold text-gray-800">Order Summary</h2>
 
                   <div class="space-y-6 mt-8">
-                    <div class="flex gap-4">
-                      <div class="w-[124px] h-[100px] flex items-center justify-center p-4 shrink-0 bg-gray-200 rounded-lg">
-                        <img
-                          src="https://readymadeui.com/images/product10.webp"
-                          class="w-full object-contain"
-                        />
-                      </div>
+                    {data?.data?.cartITem?.map((item) => (
+                      <div class="flex gap-4">
+                        <div class="w-[124px] h-[100px] flex items-center justify-center p-4 shrink-0 bg-gray-200 rounded-lg">
+                          <img
+                            src={item.product.image[0]}
+                            class="w-full object-contain"
+                          />
+                        </div>
 
-                      <div class="w-full">
-                        <h3 class="text-sm text-gray-800 font-bold">
-                          Naruto: Split Sneakers
-                        </h3>
-                        <ul class="text-xs text-gray-800 space-y-1 mt-2">
-                          <li class="flex flex-wrap gap-4">
-                            Size <span class="ml-auto">37</span>
-                          </li>
-                          <li class="flex flex-wrap gap-4">
-                            Quantity <span class="ml-auto">2</span>
-                          </li>
-                          <li class="flex flex-wrap gap-4">
-                            Total Price <span class="ml-auto">$40</span>
-                          </li>
-                        </ul>
+                        <div class="w-full">
+                          <h3 class="text-sm truncate w-[80%]  text-gray-800 font-bold">
+                            {item.product.name}
+                          </h3>
+                          <ul class="text-xs text-gray-800 space-y-1 mt-2">
+                            <li class="flex flex-wrap gap-4">
+                              Size <span class="ml-auto">{item.size}</span>
+                            </li>
+                            <li class="flex flex-wrap gap-4">
+                              Quantity{" "}
+                              <span class="ml-auto">{item.quantity}</span>
+                            </li>
+                            <li class="flex flex-wrap gap-4">
+                              Total Price{" "}
+                              <span class="ml-auto">
+                                ${item.product.price * item.quantity}
+                              </span>
+                            </li>
+                          </ul>
+                        </div>
                       </div>
-                    </div>
-
-                    <div class="flex gap-4">
-                      <div class="w-[124px] h-[100px] flex items-center justify-center p-4 shrink-0 bg-gray-200 rounded-lg">
-                        <img
-                          src="https://readymadeui.com/images/product11.webp"
-                          class="w-full object-contain"
-                        />
-                      </div>
-
-                      <div class="w-full">
-                        <h3 class="text-sm text-gray-800 font-bold">
-                          VelvetGlide Boots
-                        </h3>
-                        <ul class="text-xs text-gray-800 space-y-1 mt-2">
-                          <li>
-                            Size <span class="float-right">37</span>
-                          </li>
-                          <li>
-                            Quantity <span class="float-right">2</span>
-                          </li>
-                          <li>
-                            Total Price <span class="float-right">$40</span>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-
-                    <div class="flex gap-4">
-                      <div class="w-[124px] h-[100px] flex items-center justify-center p-4 shrink-0 bg-gray-200 rounded-lg">
-                        <img
-                          src="https://readymadeui.com/images/product14.webp"
-                          class="w-full object-contain"
-                        />
-                      </div>
-
-                      <div class="w-full">
-                        <h3 class="text-sm text-gray-800 font-bold">
-                          Echo Elegance
-                        </h3>
-                        <ul class="text-xs text-gray-800 space-y-1 mt-2">
-                          <li>
-                            Size <span class="float-right">37</span>
-                          </li>
-                          <li>
-                            Quantity <span class="float-right">2</span>
-                          </li>
-                          <li>
-                            Total Price <span class="float-right">$40</span>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-
-                    <div class="flex gap-4">
-                      <div class="w-[124px] h-[100px] flex items-center justify-center p-4 shrink-0 bg-gray-200 rounded-lg">
-                        <img
-                          src="https://readymadeui.com/images/product12.webp"
-                          class="w-full object-contain"
-                        />
-                      </div>
-
-                      <div class="w-full">
-                        <h3 class="text-sm text-gray-800 font-bold">
-                          Naruto: Split Sneakers
-                        </h3>
-                        <ul class="text-xs text-gray-800 space-y-1 mt-2">
-                          <li class="flex flex-wrap gap-4">
-                            Size <span class="ml-auto">37</span>
-                          </li>
-                          <li class="flex flex-wrap gap-4">
-                            Quantity <span class="ml-auto">2</span>
-                          </li>
-                          <li class="flex flex-wrap gap-4">
-                            Total Price <span class="ml-auto">$40</span>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-
-                    <div class="flex gap-4">
-                      <div class="w-[124px] h-[100px] flex items-center justify-center p-4 shrink-0 bg-gray-200 rounded-lg">
-                        <img
-                          src="https://readymadeui.com/images/product9.webp"
-                          class="w-full object-contain"
-                        />
-                      </div>
-
-                      <div class="w-full">
-                        <h3 class="text-sm text-gray-800 font-bold">
-                          VelvetGlide Boots
-                        </h3>
-                        <ul class="text-xs text-gray-800 space-y-1 mt-2">
-                          <li>
-                            Size <span class="float-right">37</span>
-                          </li>
-                          <li>
-                            Quantity <span class="float-right">2</span>
-                          </li>
-                          <li>
-                            Total Price <span class="float-right">$40</span>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
+                    ))}
                   </div>
                 </div>
 
                 <div class="lg:absolute lg:left-0 lg:bottom-0 bg-gray-200 w-full p-4">
                   <h4 class="flex flex-wrap gap-4 text-sm text-gray-800 font-bold">
-                    Total <span class="ml-auto">$240.00</span>
+                    Total{" "}
+                    <span class="ml-auto">${data?.data?.totalamount}</span>
                   </h4>
                 </div>
               </div>

@@ -7,13 +7,27 @@ import Star from "./Star";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addtocart } from "../../Features/AllSlice/cartSlice";
-
+import { useAddToCartMutation } from "../../Features/Api/exlusiveApi";
+import { successToast } from "../../helpers/Toast";
 const ProductCard = ({ itemData }) => {
-  const dispatch = useDispatch();
-  const handleAddtoCart = (item) => {
-    dispatch(addtocart(item));
-  };
+  // useAddToCartMutation
+  const [AddToCart] = useAddToCartMutation();
 
+  // handleAddtoCart funtino implement
+  const handleAddtoCart = async ({ _id }) => {
+    try {
+      const response = await AddToCart({
+        product: _id,
+        quantity: 1,
+      });
+      if (response) {
+        successToast("Add to Cart Sucessfull");
+      }
+      console.log(response);
+    } catch (error) {
+      console.error("from add to cart from product cart", error);
+    }
+  };
   return (
     <div className="mt-10 ">
       <div className="w-full">
